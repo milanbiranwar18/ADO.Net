@@ -19,4 +19,5 @@ employeeModel.NetPay = 25000.00;
 employeeModel.City = "Banglore";
 employeeModel.Country = "India";
 //employeeModel.StartDate = DateTime.Now;
-repo.AddEmployee(employeeModel);
+//repo.AddEmployee(employeeModel);
+repo.GetAllEmployees();
