@@ -13,6 +13,50 @@ namespace EmployeePayroll
         public static string  connectionstring = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PayrollService1;Integrated Security=True";
         SqlConnection connection = new SqlConnection(connectionstring);
 
+
+        public void GetAllEmployees()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+                {
+                    string query = @"select EmployeeID,EmployeeName, PhoneNumber, Address, Department, Gender, BasicPay, Deductions, TaxablePay, Tax, NetPay, StartDate, City,Country";
+                    SqlCommand cmd = new SqlCommand(query, connection);
+
+                    this.connection.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    if(dr.HasRows)
+                    {
+                        while(dr.Read())
+                        {
+                            employeeModel.EmployeeID = dr.GetInt32(0);
+                            employeeModel.EmployeeName = dr.GetString(1);
+                            Console.WriteLine(employeeModel.EmployeeID + " " + employeeModel.EmployeeName);
+                            Console.WriteLine("------------------------------");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No Datan found");
+                    }
+                    dr.Close();
+                    this.connection.Close();
+                }
+            }
+            catch (Exception ex)
+            { throw new Exception(ex.Message); }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
+
+
+
+
+
         public bool AddEmployee(EmployeeModel employeeModel)
         {
             try
